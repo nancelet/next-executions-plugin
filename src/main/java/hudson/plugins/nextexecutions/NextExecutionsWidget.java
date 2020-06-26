@@ -50,6 +50,17 @@ public class NextExecutionsWidget extends Widget {
 
 	public Api getApi() { return new Api(this); }
 
+	public List<AbstractItem> getItems(final AbstractItem p) {
+		final List<AbstractItem> l = new ArrayList<>();
+		if ("class com.cloudbees.hudson.plugins.folder.Folder".equals(p.getClass().toString())) {
+			final ItemGroup m = (ItemGroup) p;
+			m.getItems().forEach(x -> l.addAll(this.getItems((AbstractItem) x)));
+		} else if (p instanceof ParameterizedJobMixIn.ParameterizedJob) {
+			l.add(p);
+		}
+		return l;
+	}
+
 	@Exported(name = "next_executions")
 	public List<NextBuilds> getBuilds() {
 		List<NextBuilds> nblist = new Vector<NextBuilds>();
@@ -78,10 +89,16 @@ public class NextExecutionsWidget extends Widget {
 			l = vector;
 		}
 		else{
-			l = j.getItems(ParameterizedJobMixIn.ParameterizedJob.class);
+			l = new ArrayList<>();
+			j.getItems(AbstractItem.class).stream().forEach(x -> {
+				if (x instanceof ParameterizedJobMixIn.ParameterizedJob) {
+					l.add((ParameterizedJobMixIn.ParameterizedJob) x);
+				} else {
+					l.addAll(this.getItems(x).stream().map(y -> (ParameterizedJobMixIn.ParameterizedJob) y).collect(Collectors.toList()));
+				}
+			});
 		}
-		
-		
+
 		for (ParameterizedJobMixIn.ParameterizedJob project: l) {
 			NextBuilds nb = NextExecutionsUtils.getNextBuild(project, triggerClass);
 			if(nb != null)

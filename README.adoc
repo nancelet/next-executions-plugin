@@ -41,6 +41,13 @@ image:docs/img/92a33c6fe243189bb4bc08f6a6d52727ae4117b6.png[image,title="Jenkins
 Changelog
 ---------
 
+Version 1.0.16 (2020-06-26)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Handle cloudbee folder
+must not filter by view in plugin configuration in order to see
+nested jobs in folders
+
 Version 1.0.15 (2019-10-30)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
