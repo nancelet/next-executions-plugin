@@ -1,18 +1,22 @@
 package hudson.plugins.nextexecutions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import jenkins.model.Jenkins;
 
 import org.kohsuke.stapler.Stapler;
 
 import hudson.Extension;
+import hudson.model.AbstractItem;
 import hudson.model.Api;
+import hudson.model.ItemGroup;
 import hudson.model.Queue;
 import hudson.model.Queue.Item;
 import hudson.model.Queue.WaitingItem;
